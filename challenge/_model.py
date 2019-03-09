@@ -17,4 +17,4 @@ cache = Cache(
     config=APP.config,
 )
 
-QUERY_DB = QueryAPI(connect())
+QUERY_DB = QueryAPI(connect(database_name=APP.config.get('DATABASE')))

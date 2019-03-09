@@ -1,5 +1,8 @@
 """
-This is doc
+Please use this script to initialize and populate the person and company
+mongodb collections
+Usage:
+python manage.py init --people resources/people.json --companies resources/companies.json
 """
 
 import click
@@ -18,7 +21,7 @@ LOG = logging.getLogger(__name__)
 @click.pass_context
 def cli(ctx, config):
     """ Creates the database object from configuration file.
-        Used to pass the database for other commands.
+        Used to pass the database for other click functions.
     """
     ctx.obj = dict()
     ctx.obj['db'] = connect(cfg_file_path=config)
@@ -37,17 +40,22 @@ def cli(ctx, config):
               type=click.Path(exists=True))
 @click.pass_obj
 def init(ctx, people, companies):
+    """
+    Initialize the database. Populate the database with people data and company data
+    """
 
     write_db = WriteAPI(ctx['db'])
     write_db.init_db()
 
-    with open(people, 'r') as fd:
-        people_ = json.load(fd)
-    write_db.add_people(people_, ctx['fruits'])
+    if people:
+        with open(people, 'r') as fd:
+            people_ = json.load(fd)
+        write_db.add_people(people_, ctx['fruits'])
 
-    with open(companies, 'r') as fd:
-        companies_ = json.load(fd)
-    write_db.add_companies(companies_)
+    if companies:
+        with open(companies, 'r') as fd:
+            companies_ = json.load(fd)
+        write_db.add_companies(companies_)
 
 
 if __name__ == '__main__':

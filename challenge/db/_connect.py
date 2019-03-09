@@ -4,7 +4,10 @@ from pymongo import MongoClient
 
 
 class LocalConfig:
-    def __init__(self, cfg: dict = None, cfg_file_path=None):
+    """
+    Configuration class to infer database configuration info
+    """
+    def __init__(self, cfg: dict = None, cfg_file_path=None, database_name=None):
         if cfg:
             self.cfg = cfg
         else:
@@ -22,14 +25,19 @@ class LocalConfig:
                                             'port': 27017,
                                             'database': 'ashoka_challenge'}})
             self.cfg = cfg_['default']
+        if database_name:
+            self.cfg['database'] = database_name
 
-    def set_database_name(self, database_name):
-        self.cfg['database'] = database_name
 
+def connect(cfg: dict = None, cfg_file_path=None, database_name=None):
+    """
+    Return a client to mongodb database
+    """
 
-def connect(cfg: dict = None, cfg_file_path=None):
     if not cfg:
-        cfg = LocalConfig(cfg_file_path=cfg_file_path).cfg
+        cfg = LocalConfig(cfg=cfg, cfg_file_path=cfg_file_path,
+                          database_name=database_name).cfg
+
     return MongoClient(host=cfg.get('host', '127.0.0.1'),
                        port=cfg.getint('port', 27017),
                        username=cfg.get('user'),

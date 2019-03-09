@@ -1,7 +1,14 @@
+"""
+Test companies application interface (as implemented by Flask blueprint)
+"""
+
 from flask.testing import FlaskClient
 
 
-def test_companies(empty_client: FlaskClient, initialized_db):
+def test_companies(empty_client: FlaskClient):
+    """
+    Test companies endpoint
+    """
 
     # Test a company having employees
     rv = empty_client.get('/companies/PERMADYNE')

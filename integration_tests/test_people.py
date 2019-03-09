@@ -1,7 +1,14 @@
+"""
+Test people interface as implemented by a seperate Flask blueprint
+"""
+
 from flask.testing import FlaskClient
 
 
-def test_fruits_and_vegetables(empty_client: FlaskClient, initialized_db):
+def test_fruits_and_vegetables(empty_client: FlaskClient):
+    """
+    Test fruit_and_vegetables endpoint
+    """
 
     rv = empty_client.get('/people/fruits_and_vegetables/Decker Mckenzie')
     assert rv.status_code == 200
@@ -16,7 +23,10 @@ def test_fruits_and_vegetables(empty_client: FlaskClient, initialized_db):
     assert rv.status_code == 404
 
 
-def test_friends(empty_client: FlaskClient, initialized_db):
+def test_friends(empty_client: FlaskClient):
+    """
+    Test friends endpoint
+    """
 
     # Test two persons with common friends who are living and has brown eyes
     rv = empty_client.get('/people/friends/Bonnie Bass/Mindy Beasley')

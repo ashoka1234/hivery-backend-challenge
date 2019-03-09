@@ -1,7 +1,7 @@
 import flask
 
-from . _services import app
+from .app import APP
 
-from ._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
+# from ._version import get_versions
+# __version__ = get_versions()['version']
+# del get_versions

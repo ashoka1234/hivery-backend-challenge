@@ -1,22 +1,20 @@
 from pathlib import Path
 import flask
 from flask_caching import Cache
-from pymongo import MongoClient
+from challenge.db import connect, QueryAPI
 
 NAME = 'challenge'
 BASE_DIR = Path(__file__).parent.parent
 
-app = flask.Flask(NAME)
+APP = flask.Flask(NAME)
 
 # Optional environment settings file or variable
-app.config.from_pyfile(BASE_DIR / 'settings.env.py', silent=True)
-app.config.from_envvar('HIVERY_SETTINGS', silent=True)
+APP.config.from_pyfile(BASE_DIR / 'settings.env.py', silent=True)
 
-app.config.setdefault('CACHE_TYPE', 'simple')
+APP.config.setdefault('CACHE_TYPE', 'simple')
 cache = Cache(
-    app=app,
-    config=app.config,
+    app=APP,
+    config=APP.config,
 )
 
-mongo_client = MongoClient()
-db = mongo_client['hivery_backend_challenge']
+QUERY_DB = QueryAPI(connect())

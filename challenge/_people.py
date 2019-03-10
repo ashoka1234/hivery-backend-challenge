@@ -1,7 +1,6 @@
 import logging
 
-from flask import Blueprint, Response, abort
-import json
+from flask import Blueprint, abort, jsonify
 
 import challenge._model as model
 
@@ -22,10 +21,7 @@ def fruits_and_vegetables(person: str = None):
 
     result['username'] = result.pop('name')
 
-    return Response(
-        json.dumps(result),
-        content_type='application/json'
-    )
+    return jsonify(result)
 
 
 @bp.route('/friends/<string:name1>/<string:name2>')
@@ -39,7 +35,5 @@ def friends(name1: str, name2: str):
     if not name1_found or not name2_found:
         abort(404, 'name1 found: {}, name2 found: {}'.format(name1_found, name2_found))
 
-    return Response(
-        json.dumps(result),
-        content_type='application/json'
-    )
+    return jsonify(result)
+

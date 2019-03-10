@@ -1,7 +1,6 @@
 import logging
 
-from flask import Blueprint, Response, abort
-import json
+from flask import Blueprint, abort, jsonify
 
 import challenge._model as model
 
@@ -18,8 +17,7 @@ def company(name):
     if not result:
         _LOG.info('%s not found', name)
         abort(404, '{} not found'.format(name))
-    return Response(
-        json.dumps(result),
-        content_type='application/json'
-    )
+
+    return jsonify(result)
+
 
